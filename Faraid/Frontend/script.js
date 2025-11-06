@@ -5,12 +5,21 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => console.log(response))
         .catch(err => console.error(err));
 
-    fetch(baseurl + api/data)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
+    async function fetchDate() {
+      try {
+        const res = await fetch(baseurl + "/date");
+        const data = await res.json();
+        console.log(data);
+        const date = new Date(data.date);
+        if (isNaN(date)) {
+          document.getElementById("date").textContent = "Invalid date received";
+        } else {
+          document.getElementById("date").textContent = date.toString();
+        }
+        console.log(date);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchDate();
 });

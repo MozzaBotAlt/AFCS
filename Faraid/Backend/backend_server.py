@@ -15,6 +15,13 @@ def date():
     time = datetime.now(timezone.utc)
     print(time)
 
+@app.route('/faraid')
+async def code():
+  try:
+    return await faraid()
+  except Exception as e:
+      return {"error": str(e)}, 500
+    
 app.run(host='0.0.0.0', port=3000)
 
 if __name__ == '__main__':
