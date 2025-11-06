@@ -6,6 +6,8 @@ from datetime import *
 app = Flask(__name__)
 faraid = Faraid.faraid()
 
+print("Copyright (C) 2025  Ali Mozzabot I, This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions. ")
+
 @app.route('/')
 def home():
   return "Server OK"

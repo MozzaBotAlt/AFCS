@@ -9,6 +9,10 @@ pos = 0
 
 def faraid():  # sourcery skip: none-compare, simplify-boolean-comparison
 # If deceased is Female, remove "Wife" key from female dictionary, If deceased is Male, remove "Husband" key from male dictionary #
+
+    print("Copyright (C) 2025  NUR AIN SYAFIQAH BINTI MOHAMMAD MARZUKI, This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions. ")
+    print('')
+    
     gender = input_gender("Insert deceased gender (F / M) : ")
 
     if gender == "M":
