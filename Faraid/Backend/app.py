@@ -10,7 +10,7 @@ print("Copyright (C) 2025  Ali Mozzabot I, This program comes with ABSOLUTELY NO
 
 @app.route('/')
 def home():
-  return "Server OK"
+  return render_template('index.html')
 
 @app.route('/date')
 def date():
@@ -21,10 +21,13 @@ def date():
 async def code():
   try:
     return await faraid()
-  except Exception as e:
-      return {"error": str(e)}, 500
     
-app.run(host='0.0.0.0', port=3000)
+    except ValueError as e:
+      return jsonify({"error": str(e)}), 400
+    except Exception as e:
+      return jsonify({"error": f"Unexpected error: {str(e)}"}), 500
+    
+app.run(host='0.0.0.0', port=3003)
 
 if __name__ == '__main__':
     app.run(debug=True)

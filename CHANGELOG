@@ -1,0 +1,14 @@
+Ain Faraid Calculation System
+
+Legend:
++   - Added feature
+*   - Improved/changed feature
+-   - Bug fixed
+!   - Known issue / missing feature
+AFCS - Labsim Von MozzaBot
+
+AFCS-0.1.0
++ Foundation of the calculator
++ Website template foundation
+! Calculator integration
+! Backend frontend integration with calculator
