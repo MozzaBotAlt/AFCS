@@ -1,0 +1,26 @@
+form {
+  max-width: 500px; /* Limit form width for better readability */
+  margin: 20px auto; /* Center the form horizontally with some top/bottom margin */
+  padding: 20px; /* Internal spacing within the form */
+  background-color: #f9f9f9; /* Light background for the form */
+  border: 1px solid #ddd; /* Light border around the form */
+  border-radius: 8px; /* More rounded corners for the form container */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  width: 100%; /* Make inputs take full width of their container */
+  padding: 10px; /* Add internal spacing */
+  margin-bottom: 15px; /* Space between inputs */
+  border: 1px solid #ccc; /* Light gray border */
+  border-radius: 4px; /* Slightly rounded corners */
+  box-sizing: border-box; /* Include padding and border in element's total width and height */
+  font-size: 16px; /* Readable font size */
+}
+
+textarea {
+  resize: vertical; /* Allow vertical resizing for textareas */
+  min-height: 100px; /* Minimum height for textareas */
+}

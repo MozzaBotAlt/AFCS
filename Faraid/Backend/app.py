@@ -27,6 +27,18 @@ async def code():
     except Exception as e:
       return jsonify({"error": f"Unexpected error: {str(e)}"}), 500
     
+@app.route("/terminal", methods=["POST"])
+def terminal():
+    data = request.json["input"]
+
+    # Run command in shell
+    try:
+        output = subprocess.check_output(data, shell=True, stderr=subprocess.STDOUT, text=True)
+    except subprocess.CalledProcessError as e:
+        output = e.output
+
+    return output
+
 app.run(host='0.0.0.0', port=3003)
 
 if __name__ == '__main__':
