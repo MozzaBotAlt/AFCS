@@ -52,13 +52,8 @@ def input_num(message):
 def getNetAsset():    
     asset = []
 
-    print("\n***ENTER ASSET VALUE FROM A1 TO A7***")
-    for i in range(1,8):
-        i = float(input(f"Enter value A{i}: RM"))
-        asset.append(i)
-
-    total_assets = sum(asset)
-
+    print("\n***ENTER TOTAL ASSET VALUE***")
+    total_assets = float(input(f"Enter total asset value: RM"))
     debt = float(input("Enter amount for deceased's Debt : RM"))
     funeral_cost = float(input("Enter amount for Funeral Cost : RM"))
     will = float(input("Enter amount for Deceased's Will : RM"))

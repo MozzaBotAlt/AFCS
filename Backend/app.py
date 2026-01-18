@@ -1,6 +1,6 @@
-from flask import Flask, render_template
-from Backend import Faraid
-import json, os, requests
+from flask import Flask, render_template, request, jsonify # type: ignore
+import Faraid
+import json, os, requests, subprocess
 from datetime import *
 
 app = Flask(__name__)
@@ -18,14 +18,13 @@ def date():
     print(time)
 
 @app.route('/faraid')
-async def code():
+def code():
   try:
-    return await faraid()
-    
-    except ValueError as e:
-      return jsonify({"error": str(e)}), 400
-    except Exception as e:
-      return jsonify({"error": f"Unexpected error: {str(e)}"}), 500
+    return faraid()
+  except ValueError as e:
+    return jsonify({"error": str(e)}), 400
+  except Exception as e:
+    return jsonify({"error": f"Unexpected error: {str(e)}"}), 500
     
 @app.route("/terminal", methods=["POST"])
 def terminal():
