@@ -13,8 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Log status code and status text
       if (response.status == 200) {
         console.log(`Status Code: ${response.status}, OK`);
-        return 
-      } else { console.warn(`Status Code: 501, Internal Server Error`); }
+      } else { console.warn(`Status Code: ${response.status}, Error`); }
   })
     .catch(error => {
       console.error('Error fetching base URL:', error);
