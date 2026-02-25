@@ -3,50 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AFCS</title>
+    <title>AFCS - Islamic Inheritance Calculator</title>
     <link rel="stylesheet" href="style.css">
     <script src="./script.js" defer></script>
 </head>
-<body>
+<body class="futuristic-theme">
     <header class="site-header">
       <div class="header-inner">
-        <h1>AFCS</h1>
-        <p class="tagline">
-          Ain Faraid Calculation System
-        </p>
+        <div class="header-logo">
+          <div class="geometric-icon">◆</div>
+          <div>
+            <h1>AFCS</h1>
+            <p class="subheader">Al-Faraid Calculation System</p>
+          </div>
+        </div>
+        <p class="tagline">الفرائض - Islamic Law of Inheritance</p>
       </div>
     </header>
 
     <main class="container" role="main">
+      <section class="hero" aria-label="Welcome section">
+        <h2>Calculate Islamic Inheritance Distribution</h2>
+        <p class="description">Precise calculations based on Islamic Faraid (inheritance law) principles</p>
+      </section>
+
+      <section class="features-grid" aria-label="Features">
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Precise Calculations</h3>
+          <p>Accurate inheritance distribution following Islamic law principles</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚖️</div>
+          <h3>Fair Distribution</h3>
+          <p>Ensures equitable division among heirs according to Quranic guidance</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h3>Secure & Private</h3>
+          <p>Your calculations are processed locally with complete privacy</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔢</div>
+          <h3>Mathematical Precision</h3>
+          <p>Complex calculations with fractional precision for accuracy</p>
+        </div>
+      </section>
+
       <section class="cards" aria-label="Main navigation">
         <article
-          class="card"
+          class="card main-card"
           role="button"
           tabindex="0"
           onclick="location.href='./calculator/index.html'"
           onkeypress="if(event.key==='Enter') location.href='./calculator/index.html'"
         >
-          <i class="fa-solid fa-info-circle" aria-hidden="true"></i>
-          <h2>AFCS</h2>
-          <p class="card-desc">Islamic Inheritance Calculator by Ain Syafiqah</p>
+          <div class="card-content">
+            <div class="card-icon">🧮</div>
+            <h2>Start Calculator</h2>
+            <p class="card-desc">Begin your Islamic inheritance calculation journey</p>
+            <p class="card-subtext">Calculate fair distribution among heirs</p>
+          </div>
           <button
-            class="btn"
-            onclick="window.location.href='index.html'"
+            class="btn-primary"
+            onclick="window.location.href='./calculator/index.html'"
           >
-            To calculator!
+            Open Calculator →
           </button>
         </article>
       </section>
+
+      <section class="info-section">
+        <h3>What is Faraid?</h3>
+        <p>
+          Faraid (Arabic: الفرائض) is the Islamic system of inheritance that determines how property is divided 
+          among heirs following the death of a person, based on the Quran and Sunnah. This calculator helps you 
+          accurately determine each heir's share according to Islamic law.
+        </p>
+      </section>
+
       <div class="meta-row">
         <p class="date" id="date" aria-live="polite">Loading date...</p>
       </div>
     </main>
 
-    <hr>
     <footer class="site-footer">
       <div class="footer-inner">
-        <p>&copy; 2025 AFCS.</p>
-        <p>GNU Affero GPL License v3.0 — Developed by Long Infinity</p>
+        <p>&copy; 2025 AFCS - Ain Faraid Calculation System</p>
+        <p>GNU AGPL License v3.0 — Developed by Long Infinity</p>
       </div>
     </footer>
 

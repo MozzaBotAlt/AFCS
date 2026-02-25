@@ -3,43 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AFCS</title>
+    <title>AFCS - Islamic Inheritance Calculator</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="./calc.css">
 </head>
-<body>
+<body class="futuristic-theme">
   <header class="site-header">
     <div class="header-inner">
-      <h1>AFCS</h1>
-      <p class="tagline">
-        Ain Faraid Calculation System
-      </p>
+      <div class="header-logo">
+        <div class="geometric-icon">◆</div>
+        <h1>AFCS</h1>
+      </div>
+      <p class="tagline">الفرائض - Faraid Calculation System</p>
     </div>
   </header>
 
-  <div class="container">
-    <form action="/submit" method="POST" class="form">
-      <input type="text" name="asset" placeholder="Enter total asset"/>
-      <input type="text" name="debt" placeholder="Enter total debt/liabilities"/>
-      <option value=""></option>
-      <p>Double click 'send' to calculate:</p><br>
-      <button type="submit" ondblclick="">Send</button>
-    </form>
-    <div class="card">
-      <div id="terminal" style="width:100%; height:300px;"></div>
-      <script src="https://unpkg.com/xterm/lib/xterm.js" defer></script>
-      <script src="./script.js" defer></script>
+  <main class="container">
+    <!-- Progress Indicator -->
+    <div class="progress-tracker">
+      <div class="step-indicator" data-step="1">
+        <span class="step-number">1</span>
+        <span class="step-label">Estate</span>
+      </div>
+      <div class="connector"></div>
+      <div class="step-indicator" data-step="2">
+        <span class="step-number">2</span>
+        <span class="step-label">Heirs</span>
+      </div>
+      <div class="connector"></div>
+      <div class="step-indicator" data-step="3">
+        <span class="step-number">3</span>
+        <span class="step-label">Results</span>
+      </div>
     </div>
-  </div>
 
-  <hr>
+    <!-- Step 1: Estate Information -->
+    <section class="form-section active" id="step-1">
+      <h2>Estate Valuation</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="gender">Deceased Gender</label>
+          <div class="gender-selector">
+            <input type="radio" id="male" name="gender" value="M" required>
+            <label for="male" class="gender-label">♂ Male</label>
+            <input type="radio" id="female" name="gender" value="F" required>
+            <label for="female" class="gender-label">♀ Female</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="total-assets">Total Assets (RM)</label>
+          <input type="number" id="total-assets" placeholder="0.00" min="0" step="0.01" required>
+        </div>
+
+        <div class="form-group">
+          <label for="debt">Debt & Liabilities (RM)</label>
+          <input type="number" id="debt" placeholder="0.00" min="0" step="0.01">
+        </div>
+
+        <div class="form-group">
+          <label for="funeral">Funeral Costs (RM)</label>
+          <input type="number" id="funeral" placeholder="0.00" min="0" step="0.01">
+        </div>
+
+        <div class="form-group">
+          <label for="will">Bequest/Will (RM)</label>
+          <input type="number" id="will" placeholder="0.00" min="0" step="0.01">
+        </div>
+
+        <div class="form-group">
+          <label for="nazar">Nazar/Vow (RM)</label>
+          <input type="number" id="nazar" placeholder="0.00" min="0" step="0.01">
+        </div>
+      </div>
+
+      <div class="calculation-preview">
+        <h3>Net Estate</h3>
+        <div class="net-asset-display">
+          <span class="currency">RM</span>
+          <span class="amount" id="net-asset-amount">0.00</span>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="nextStep(1)">Continue</button>
+    </section>
+
+    <!-- Step 2: Heirs Information -->
+    <section class="form-section" id="step-2">
+      <h2>Heirs Information</h2>
+      <div class="heirs-container">
+        <!-- Male Heirs -->
+        <div class="heir-category">
+          <h3>♂ Male Heirs</h3>
+          <div class="heirs-grid">
+            <div class="heir-item">
+              <input type="checkbox" id="son" class="heir-checkbox" data-heir="Son">
+              <label for="son">Son</label>
+              <input type="number" id="son-count" class="heir-count" min="1" placeholder="Count" disabled>
+            </div>
+            <div class="heir-item">
+              <input type="checkbox" id="grandson" class="heir-checkbox" data-heir="Grandson">
+              <label for="grandson">Grandson</label>
+              <input type="number" id="grandson-count" class="heir-count" min="1" placeholder="Count" disabled>
+            </div>
+            <div class="heir-item">
+              <input type="checkbox" id="father" class="heir-checkbox" data-heir="Father">
+              <label for="father">Father</label>
+              <input type="number" id="father-count" class="heir-count" min="1" placeholder="Count" disabled>
+            </div>
+            <div class="heir-item">
+              <input type="checkbox" id="grandfather" class="heir-checkbox" data-heir="Grandfather Father Side">
+              <label for="grandfather">Grandfather</label>
+              <input type="number" id="grandfather-count" class="heir-count" min="1" placeholder="Count" disabled>
+            </div>
+            <div class="heir-item">
+              <input type="checkbox" id="brother" class="heir-checkbox" data-heir="Brother">
+              <label for="brother">Brother</label>
+              <input type="number" id="brother-count" class="heir-count" min="1" placeholder="Count" disabled>
+            </div>
+            <div class="heir-item">
+              <input type="checkbox" id="stepbrother-father" class="heir-checkbox" data-heir="Stepbrother Same Father">
+              <label for="stepbrother-father">Stepbrother (Father)</label>
+              <input type="number" id="stepbrother-father-count" class="heir-count" min="1" placeholder="Count" disabled>
+            </div>
+            <div class="heir-item">
+              <input type="checkbox" id="stepbrother-mother" class="heir-checkbox" data-heir="Stepbrother Same Mother">
+              <label for="stepbrother-mother">Stepbrother (Mother)</label>
+              <input type="number" id="stepbrother-mother-count" class="heir-count" min="1" placeholder="Count" disabled>
+            </div>
+            <div class="heir-item">
+              <input type="checkbox" id="nephew" class="heir-checkbox" data-heir="Nephew">
+              <label for="nephew">Nephew</label>
+              <input type="number" id="nephew-count" class="heir-count" min="1" placeholder="Count" disabled>
+            </div>
+            <div class="heir-item">
+              <input type="checkbox" id="uncle" class="heir-checkbox" data-heir="Uncle">
+              <label for="uncle">Uncle</label>
+              <input type="number" id="uncle-count" class="heir-count" min="1" placeholder="Count" disabled>
+            </div>
+            <div class="heir-item">
+              <input type="checkbox" id="cousin" class="heir-checkbox" data-heir="Male Cousin">
+              <label for="cousin">Cousin</label>
+              <input type="number" id="cousin-count" class="heir-count" min="1" placeholder="Count" disabled>
+            </div>
+          </div>
+        </div>
+
+        <!-- Female Heirs -->
+        <div class="heir-category">
+          <h3>♀ Female Heirs</h3>
+          <div class="heirs-grid">
+            <div class="heir-item">
+              <input type="checkbox" id="daughter" class="heir-checkbox" data-heir="Daughter">
+              <label for="daughter">Daughter</label>
+              <input type="number" id="daughter-count" class="heir-count" min="1" placeholder="Count" disabled>
+            </div>
+            <div class="heir-item">
+              <input type="checkbox" id="granddaughter" class="heir-checkbox" data-heir="Granddaughter">
+              <label for="granddaughter">Granddaughter</label>
+              <input type="number" id="granddaughter-count" class="heir-count" min="1" placeholder="Count" disabled>
+            </div>
+            <div class="heir-item">
+              <input type="checkbox" id="mother" class="heir-checkbox" data-heir="Mother">
+              <label for="mother">Mother</label>
+              <input type="number" id="mother-count" class="heir-count" min="1" placeholder="Count" disabled>
+            </div>
+            <div class="heir-item">
+              <input type="checkbox" id="grandmother-father" class="heir-checkbox" data-heir="Grandmother Father Side">
+              <label for="grandmother-father">Grandmother (Father)</label>
+              <input type="number" id="grandmother-father-count" class="heir-count" min="1" placeholder="Count" disabled>
+            </div>
+            <div class="heir-item">
+              <input type="checkbox" id="sister" class="heir-checkbox" data-heir="Sister">
+              <label for="sister">Sister</label>
+              <input type="number" id="sister-count" class="heir-count" min="1" placeholder="Count" disabled>
+            </div>
+            <div class="heir-item">
+              <input type="checkbox" id="stepsister-father" class="heir-checkbox" data-heir="Stepsister Same Father">
+              <label for="stepsister-father">Stepsister (Father)</label>
+              <input type="number" id="stepsister-father-count" class="heir-count" min="1" placeholder="Count" disabled>
+            </div>
+            <div class="heir-item">
+              <input type="checkbox" id="stepsister-mother" class="heir-checkbox" data-heir="Stepsister Same Mother">
+              <label for="stepsister-mother">Stepsister (Mother)</label>
+              <input type="number" id="stepsister-mother-count" class="heir-count" min="1" placeholder="Count" disabled>
+            </div>
+            <div class="heir-item">
+              <input type="checkbox" id="spouse" class="heir-checkbox" data-heir="Spouse">
+              <label for="spouse">Spouse</label>
+              <input type="number" id="spouse-count" class="heir-count" min="1" placeholder="Count" disabled>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button class="btn-secondary" onclick="previousStep(2)">Back</button>
+        <button class="btn-primary" onclick="nextStep(2)">Calculate</button>
+      </div>
+    </section>
+
+    <!-- Step 3: Results -->
+    <section class="form-section" id="step-3">
+      <h2>Distribution Results</h2>
+      
+      <div class="results-summary">
+        <div class="summary-card">
+          <h3>Net Estate</h3>
+          <p class="value" id="result-net-estate">RM 0.00</p>
+        </div>
+      </div>
+
+      <div class="heirs-results">
+        <div class="results-container" id="results-container">
+          <!-- Results will be populated here -->
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button class="btn-secondary" onclick="previousStep(3)">Back</button>
+        <button class="btn-primary" onclick="exportResults()">Export PDF</button>
+        <button class="btn-secondary" onclick="resetForm()">New Calculation</button>
+      </div>
+    </section>
+  </main>
+
   <footer class="site-footer">
     <div class="footer-inner">
-      <p>&copy; 2025 AFCS.</p>
-      <p>GNU GPL License v3.0 — Developed by Long Infinity</p>
+      <p>&copy; 2025 AFCS - Ain Faraid Calculation System</p>
+      <p>GNU AGPL License v3.0</p>
     </div>
   </footer>
 
+  <script src="./script.js"></script>
   <noscript><meta http-equiv="refresh" content="0; url=/error.html"></noscript>
 </body>
 </html>
