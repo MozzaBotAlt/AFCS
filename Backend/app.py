@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, jsonify # type: ignore
+from flask import Flask, render_template, request, jsonify
 import Faraid
 import json, os, requests, subprocess
 from datetime import *
 
 app = Flask(__name__)
-faraid = Faraid.faraid()
+# Remove: faraid = Faraid.faraid()  # This was causing interactive input
 
 print("Copyright (C) 2025  Ali Mozzabot I, This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions. ")
 
@@ -14,13 +14,13 @@ def home():
 
 @app.route('/date')
 def date():
-    time = datetime.now(timezone.utc)
-    print(time)
+    time = datetime.utcnow()
+    return jsonify({"date": time.isoformat()})
 
 @app.route('/faraid')
 def code():
   try:
-    return faraid()
+    return Faraid.faraid()
   except ValueError as e:
     return jsonify({"error": str(e)}), 400
   except Exception as e:
@@ -84,4 +84,4 @@ def terminal():
     return output
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3003, debug=True)
+    app.run(host='0.0.0.0', port=3003, debug=False)
