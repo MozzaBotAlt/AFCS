@@ -238,28 +238,26 @@ async function calculateInheritance() {
 
     console.log('Sending payload:', payload);
 
-    // Call backend API
-    const response = await fetch('/calculate-faraid', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Calculation failed');
+    // make sure the Pyodide-based calculator is ready
+    if (typeof calculateFaraid !== 'function') {
+      await new Promise(resolve => {
+        const interval = setInterval(() => {
+          if (typeof calculateFaraid === 'function') {
+            clearInterval(interval);
+            resolve();
+          }
+        }, 50);
+      });
     }
 
-    const results = await response.json();
+    const results = await calculateFaraid(payload);
     formState.results = results;
     displayResults(results);
 
     showLoading(false);
   } catch (error) {
     console.error('Error:', error);
-    showError('Error calculating inheritance: ' + error.message);
+    showError('Error calculating inheritance: ' + (error.message || error));
     showLoading(false);
   }
 }

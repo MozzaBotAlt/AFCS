@@ -235,7 +235,11 @@
     </div>
   </footer>
 
-  <script src="./script.js"></script>
+  <!-- pyodide runtime for executing Python logic in browser -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js" defer></script>
+  <!-- loader that imports the Python modules and exposes calculateFaraid -->
+  <script src="./pyodide-loader.js" defer></script>
+  <script src="./script.js" defer></script>
   <noscript><meta http-equiv="refresh" content="0; url=/error.html"></noscript>
 </body>
 </html>
