@@ -432,6 +432,62 @@ body::before {
   text-shadow: 0 0 15px rgba(0, 217, 255, 0.3);
 }
 
+.estate-summary {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.8rem;
+  background: linear-gradient(135deg, rgba(0, 217, 255, 0.08), rgba(255, 0, 255, 0.08));
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  grid-column: 1 / -1;
+}
+
+.summary-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.95rem;
+}
+
+.summary-detail:last-child {
+  border-bottom: none;
+}
+
+.summary-detail span:last-child {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.total-distributed {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 217, 255, 0.1));
+  border: 2px solid var(--success-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.total-distributed h4 {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.8rem;
+}
+
+.total-amount {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--success-color);
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+  margin: 0;
+}
+
 /* Heirs Results */
 .heirs-results {
   margin-bottom: 2rem;
@@ -441,6 +497,14 @@ body::before {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 1.5rem;
+}
+
+.results-container > h3 {
+  grid-column: 1 / -1;
+  color: var(--primary-color);
+  margin-top: 0;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 1rem;
 }
 
 .heir-result {
@@ -492,7 +556,7 @@ body::before {
 }
 
 .heir-result .amount {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: var(--success-color);
   text-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
@@ -564,11 +628,44 @@ body::before {
   margin: 0.5rem 0;
 }
 
-/* Responsive Design */
+/* Enhanced Input Styling */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Input Focus Effects */
+.form-group input:focus::placeholder {
+  color: transparent;
+}
+
+/* Improved Heir Item Styling */
+.heir-item.checked {
+  background: rgba(0, 217, 255, 0.05);
+  border-color: var(--border-color);
+}
+
+/* Mobile-First Responsive Design */
+@media (max-width: 1024px) {
+  .heirs-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
   .progress-tracker {
     flex-direction: column;
     gap: 1rem;
+    margin-bottom: 2rem;
   }
 
   .connector {
@@ -580,12 +677,38 @@ body::before {
     font-size: 1.8rem;
   }
 
+  .site-header {
+    padding: 1.5rem 0;
+  }
+
+  .container {
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+
   .form-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .heirs-container {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .heir-category {
+    padding: 1.2rem;
+  }
+
+  .heir-item {
+    grid-template-columns: 20px 1fr 80px;
+    gap: 0.8rem;
+    padding: 0.6rem;
+  }
+
+  .heir-count {
+    padding: 0.4rem;
+    font-size: 0.85rem;
   }
 
   .results-container {
@@ -594,11 +717,125 @@ body::before {
 
   .button-group {
     flex-direction: column;
+    gap: 0.8rem;
   }
 
   .btn-primary,
   .btn-secondary {
     width: 100%;
+    padding: 0.8rem 1.5rem;
+  }
+
+  .form-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .calculation-preview {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .net-asset-display {
+    font-size: 2rem;
+  }
+
+  .currency {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-header h1 {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+  }
+
+  .geometric-icon {
+    font-size: 2rem;
+  }
+
+  .tagline {
+    font-size: 0.85rem;
+  }
+
+  .progress-tracker {
+    gap: 0.8rem;
+    padding: 1.5rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .step-number {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .step-label {
+    font-size: 0.75rem;
+  }
+
+  .form-section h2 {
+    font-size: 1.3rem;
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+  }
+
+  .form-group input[type="number"] {
+    padding: 0.7rem 0.8rem;
+    font-size: 16px;
+  }
+
+  .gender-selector {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .gender-label {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    text-align: center;
+  }
+
+  .heir-item {
+    grid-template-columns: 18px 1fr 70px;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .heir-item label {
+    font-size: 0.9rem;
+  }
+
+  .heir-count {
+    padding: 0.3rem;
+    font-size: 0.8rem;
+  }
+
+  .results-summary {
+    gap: 1rem;
+  }
+
+  .summary-card {
+    padding: 1rem;
+  }
+
+  .summary-card .value {
+    font-size: 1.5rem;
+  }
+
+  .heir-result {
+    padding: 1rem;
+  }
+
+  .heir-result h4 {
+    font-size: 0.9rem;
+  }
+
+  .heir-result .amount {
+    font-size: 1.2rem;
   }
 }
 

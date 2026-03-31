@@ -224,6 +224,7 @@ function validateStep2() {
 async function calculateInheritance() {
   try {
     showLoading(true);
+    showError('');
 
     const payload = {
       gender: formState.gender,
@@ -240,20 +241,20 @@ async function calculateInheritance() {
 
     // make sure the Pyodide-based calculator is ready
     if (typeof calculateFaraid !== 'function') {
-      await new Promise(resolve => {
-        const interval = setInterval(() => {
-          if (typeof calculateFaraid === 'function') {
-            clearInterval(interval);
-            resolve();
-          }
-        }, 50);
-      });
+      console.log('Waiting for calculateFaraid function to be available...');
+      showLoading(false);
+      showError('Calculator is still loading. Please wait a moment and try again.');
+      return;
     }
 
     const results = await calculateFaraid(payload);
+    
+    if (!results || !results.success) {
+      throw new Error(results?.error || 'Calculation failed. Please check your inputs and try again.');
+    }
+
     formState.results = results;
     displayResults(results);
-
     showLoading(false);
   } catch (error) {
     console.error('Error:', error);
@@ -267,16 +268,52 @@ function displayResults(results) {
   const resultsContainer = document.getElementById('results-container');
   resultsContainer.innerHTML = '';
 
+  if (!results || !results.success) {
+    resultsContainer.innerHTML = '<p class="error-message">Calculation failed. Please try again.</p>';
+    return;
+  }
+
+  // Update estate summary
+  if (results.estate) {
+    const estateDiv = document.createElement('div');
+    estateDiv.className = 'estate-summary';
+    estateDiv.innerHTML = `
+      <div class="summary-detail">
+        <span>Total Assets:</span>
+        <span>RM ${results.estate.total_assets.toFixed(2)}</span>
+      </div>
+      <div class="summary-detail">
+        <span>Deductions (Debt + Funeral + Will + Nazar):</span>
+        <span>RM ${(results.estate.debt + results.estate.funeral + results.estate.will + results.estate.nazar).toFixed(2)}</span>
+      </div>
+    `;
+    resultsContainer.appendChild(estateDiv);
+  }
+
   // Update net estate display
   document.getElementById('result-net-estate').textContent = 
     `RM ${formState.netAsset.toFixed(2)}`;
 
   // Display each heir result
   if (results.heirs && Object.keys(results.heirs).length > 0) {
+    const heirsTitle = document.createElement('h3');
+    heirsTitle.textContent = 'Heir Distribution';
+    heirsTitle.style.gridColumn = '1 / -1';
+    resultsContainer.appendChild(heirsTitle);
+
     Object.entries(results.heirs).forEach(([heirName, heirData]) => {
       const heirElement = createHeirResultCard(heirName, heirData);
       resultsContainer.appendChild(heirElement);
     });
+
+    // Add total distributed
+    const totalDiv = document.createElement('div');
+    totalDiv.className = 'total-distributed';
+    totalDiv.innerHTML = `
+      <h4>Total Distributed</h4>
+      <p class="total-amount">RM ${results.total_distributed.toFixed(2)}</p>
+    `;
+    resultsContainer.appendChild(totalDiv);
   } else {
     resultsContainer.innerHTML = '<p class="error-message">No heir distributions calculated</p>';
   }
@@ -290,6 +327,12 @@ function createHeirResultCard(heirName, heirData) {
   const portion = heirData.portion || 'N/A';
   const amount = heirData.amount || 0;
   const count = heirData.count || 1;
+  const total = heirData.total || 0;
+
+  let countDisplay = '';
+  if (count > 1) {
+    countDisplay = `<div class="portion"><span>Count:</span><span class="portion-value">× ${count}</span></div>`;
+  }
 
   card.innerHTML = `
     <h4>${heirName}</h4>
@@ -297,11 +340,14 @@ function createHeirResultCard(heirName, heirData) {
       <span>Portion:</span>
       <span class="portion-value">${portion}</span>
     </div>
+    ${countDisplay}
     <div class="portion">
-      <span>Count:</span>
-      <span class="portion-value">× ${count}</span>
+      <span>Per Heir:</span>
+      <span class="portion-value">RM ${amount.toFixed(2)}</span>
     </div>
-    <div class="amount">RM ${amount.toFixed(2)}</div>
+    <div class="amount">
+      Total: RM ${total.toFixed(2)}
+    </div>
   `;
 
   return card;

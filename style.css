@@ -249,6 +249,37 @@ p {
   box-shadow: 0 15px 40px rgba(0, 217, 255, 0.15);
 }
 
+.card.featured {
+  border-color: var(--primary-color);
+  background: linear-gradient(135deg, rgba(21, 29, 61, 0.95), rgba(15, 26, 61, 0.95));
+  box-shadow: 0 10px 40px rgba(0, 217, 255, 0.2);
+}
+
+.card.featured:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 20px 50px rgba(0, 217, 255, 0.3);
+}
+
+.feature-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 1rem 0;
+  padding: 1rem;
+  background: rgba(0, 217, 255, 0.05);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.highlight {
+  color: var(--success-color);
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .card-content {
   flex: 1;
   display: flex;
@@ -374,11 +405,22 @@ button,
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+  .feature-card {
+    padding: 1.3rem;
+  }
+
+  .cards {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
 @media (max-width: 768px) {
   .header-inner {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+    padding: 0 1.5rem;
   }
 
   .tagline {
@@ -389,6 +431,10 @@ button,
     font-size: 2rem;
   }
 
+  .hero {
+    padding: 2rem 0;
+  }
+
   .container {
     padding: 1rem;
   }
@@ -397,16 +443,82 @@ button,
     grid-template-columns: 1fr;
   }
 
+  .feature-card {
+    padding: 1rem;
+  }
+
   h1 { font-size: 2rem; }
   h2 { font-size: 1.5rem; }
   h3 { font-size: 1.2rem; }
 
+  .btn-primary {
+    width: 100%;
+  }
+
+  .info-section {
+    padding: 1.5rem;
+    margin: 2rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-logo {
+    gap: 1rem;
+  }
+
+  .geometric-icon {
+    font-size: 2.5rem;
+  }
+
+  .header-logo h1 {
+    font-size: 2rem;
+    letter-spacing: 2px;
+  }
+
+  .subheader {
+    font-size: 0.75rem;
+  }
+
+  .tagline {
+    font-size: 0.85rem;
+  }
+
+  .hero h2 {
+    font-size: 1.5rem;
+  }
+
+  .description {
+    font-size: 1rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
   .feature-card {
-    padding: 1.2rem;
+    padding: 1rem;
+  }
+
+  .feature-icon {
+    font-size: 2.5rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+
+  .card-icon {
+    font-size: 3rem;
+  }
+
+  .main-card h2 {
+    font-size: 1.5rem;
   }
 
   .btn-primary {
-    width: 100%;
+    padding: 0.8rem 1.5rem;
+    font-size: 0.95rem;
   }
 }
 
