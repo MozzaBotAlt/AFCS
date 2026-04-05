@@ -122,6 +122,20 @@ body::before {
   padding: 0 1.5rem;
 }
 
+.status-banner {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  background: rgba(0, 217, 255, 0.08);
+  border: 1px solid rgba(0, 217, 255, 0.18);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 0.98rem;
+}
+
+.status-banner p {
+  margin: 0;
+}
+
 /* Progress Tracker */
 .progress-tracker {
   display: flex;

@@ -34,13 +34,14 @@ const heirMappings = {
   'sister': 'Sister',
   'stepsister-father': 'Stepsister Same Father',
   'stepsister-mother': 'Stepsister Same Mother',
-  'spouse': 'Wife' // Will change to Husband or Wife based on gender
+  'spouse': null // spouse uses gender-specific heir key
 };
 
 // Initialize Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
   initializeFormListeners();
   updateNetAssetPreview();
+  updateSpouseLabel();
   setupHeirCheckboxListeners();
   updateProgressTracker();
 });
@@ -58,8 +59,29 @@ function initializeFormListeners() {
   document.querySelectorAll('input[name="gender"]').forEach(radio => {
     radio.addEventListener('change', (e) => {
       formState.gender = e.target.value;
+      updateSpouseLabel();
     });
   });
+}
+
+function updateSpouseLabel() {
+  const spouseLabel = document.querySelector('label[for="spouse"]');
+  if (!spouseLabel) return;
+
+  if (formState.gender === 'M') {
+    spouseLabel.textContent = 'Wife';
+  } else if (formState.gender === 'F') {
+    spouseLabel.textContent = 'Husband';
+  } else {
+    spouseLabel.textContent = 'Spouse';
+  }
+}
+
+function getDynamicHeirName(heirId) {
+  if (heirId === 'spouse') {
+    return formState.gender === 'M' ? 'Wife' : formState.gender === 'F' ? 'Husband' : null;
+  }
+  return heirMappings[heirId] || null;
 }
 
 // Setup heir checkbox listeners
@@ -213,7 +235,7 @@ function validateStep2() {
   selectedHeirs.forEach(heir => {
     const countInput = document.getElementById(heir.id + '-count');
     const count = parseInt(countInput.value) || 0;
-    const heirName = heirMappings[heir.id];
+    const heirName = getDynamicHeirName(heir.id) || heirMappings[heir.id];
     formState.heirs[heirName] = count;
   });
 
@@ -237,11 +259,8 @@ async function calculateInheritance() {
       heirs: formState.heirs
     };
 
-    console.log('Sending payload:', payload);
-
     // make sure the Pyodide-based calculator is ready
     if (typeof calculateFaraid !== 'function') {
-      console.log('Waiting for calculateFaraid function to be available...');
       showLoading(false);
       showError('Calculator is still loading. Please wait a moment and try again.');
       return;
@@ -408,6 +427,8 @@ function showError(message) {
     errorDiv = document.createElement('div');
     errorDiv.id = 'error-message';
     errorDiv.className = 'error-message';
+    errorDiv.setAttribute('role', 'alert');
+    errorDiv.setAttribute('aria-live', 'assertive');
     document.querySelector('.container').insertBefore(errorDiv, document.querySelector('.progress-tracker'));
   }
   errorDiv.textContent = message;
